@@ -68,6 +68,11 @@ class SqlExtension(Extension):
                     token = next(stream)
                 variable_end = token
 
+                if stream.eos:
+                    for token in var_expr:
+                        yield token
+                    return
+
                 last_token = var_expr[-1]
                 lineno = last_token.lineno
                 # don't bind twice
