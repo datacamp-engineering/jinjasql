@@ -69,6 +69,7 @@ class SqlExtension(Extension):
                 variable_end = token
 
                 if stream.eos:
+                    var_expr.append(variable_end)
                     for token in var_expr:
                         yield token
                     return
