@@ -63,10 +63,15 @@ class SqlExtension(Extension):
             token = next(stream)
             if token.test("variable_begin"):
                 var_expr = []
-                while not token.test("variable_end"):
+                while not stream.eos and not token.test("variable_end"):
                     var_expr.append(token)
                     token = next(stream)
                 variable_end = token
+
+                if stream.eos:
+                    for token in var_expr:
+                        yield token
+                    return
 
                 last_token = var_expr[-1]
                 lineno = last_token.lineno
